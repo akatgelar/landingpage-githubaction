@@ -23,13 +23,21 @@ jobs:
           docker build -t akatgelar/landingpage-githubaction:latest .
           docker push akatgelar/landingpage-githubaction:latest
       
-      - name: Deploy to VPS
+      - name: Copy docker-compose file to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }} 
+          source: "docker-compose.yml,docker-compose.yml"
+          target: /home/ekosistemdesa/app/landingpage-githubaction/
+        
+      - name: Deploy docker-compose on VPS
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
-          script: |
-            cp "docker-compose.yml" "/home/ekosistemdesa/app/landingpage-githubaction/docker-compose.yml"
+          script: | 
             docker pull akatgelar/landingpage-githubaction:latest
             docker-compose -f /home/ekosistemdesa/app/landingpage-githubaction/docker-compose.yml up -d
