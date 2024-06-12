@@ -20,7 +20,7 @@ jobs:
       
       - name: Build and push Docker image
         run: |
-          docker build -t akatgelar/landingpage-githubaction:latest .
+          docker build -t akatgelar/landingpage-githubaction:latest -f .docker/Dockerfile .
           docker push akatgelar/landingpage-githubaction:latest
       
       - name: Copy docker-compose file to VPS
@@ -29,7 +29,7 @@ jobs:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }} 
-          source: "docker-compose.yml,docker-compose.yml"
+          source: ".docker/docker-compose.yml,docker-compose.yml"
           target: /home/ekosistemdesa/app/landingpage-githubaction/
         
       - name: Deploy docker-compose on VPS
