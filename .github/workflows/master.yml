@@ -39,5 +39,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: | 
-            docker pull akatgelar/landingpage-githubaction:latest
-            docker-compose -f /home/ekosistemdesa/app/landingpage-githubaction/docker-compose.yml up -d
+            sudo docker compose -f /home/ekosistemdesa/app/landingpage-githubaction/docker-compose.yml stop
+            sudo docker compose -f /home/ekosistemdesa/app/landingpage-githubaction/docker-compose.yml rm landingpage-githubaction --force
+            sudo docker pull akatgelar/landingpage-githubaction:latest
+            sudo docker compose -f /home/ekosistemdesa/app/landingpage-githubaction/docker-compose.yml up -d
