@@ -1,0 +1,7 @@
+services:
+  web:
+    # build: . 
+    image: akatgelar/landingpage-githubaction:latest
+    ports: 
+      - "2001:80"
+    restart: always
